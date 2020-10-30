@@ -1,7 +1,8 @@
+// eslint-disable-next-line import/no-extraneous-dependencies
 const { app, BrowserWindow } = require('electron');
-
+// eslint-disable-next-line import/no-extraneous-dependencies
+const { isDev } = require('electron-is-dev');
 const path = require('path');
-const url = require('url');
 
 let mainWindow;
 
@@ -14,15 +15,15 @@ function createWindow() {
     },
   });
 
-  mainWindow.loadURL(
-    process.env.ELECTRON_START_URL
-    || url.format({
-      pathname: path.join(__dirname, '/../public/index.html'),
-      protocol: 'file:',
-      slashes: true,
-    }),
-  );
-
+  // mainWindow.loadURL(
+  //   process.env.ELECTRON_START_URL
+  //   || url.format({
+  //     pathname: path.join(__dirname, '/../public/index.html'),
+  //     protocol: 'file:',
+  //     slashes: true,
+  //   }),
+  // );
+  mainWindow.loadURL(isDev ? 'http://localhost:3000' : `file://${path.join(__dirname, '../build/index.html')}`);
   mainWindow.on('closed', () => {
     mainWindow = null;
   });
